@@ -1,0 +1,18 @@
+pytest
+flake8==6.1.0
+black==23.7.0
+
+##### Rest API
+flask
+gunicorn
+
+##### Core scientific packages
+jupyter
+jupyterlab
+matplotlib
+numpy
+pandas
+scipy
+
+##### Machine Learning packages
+scikit-learn
