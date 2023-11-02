@@ -3,6 +3,16 @@ import os
 import signal
 import uuid
 
+if "MODEL_PATH" in os.environ:
+    pass
+else:
+    print('MODEL_PATH CANNOT BE EMPTY!!!')
+    sys.exit()
+
+MODEL_PATH = os.getenv('MODEL_PATH')
+
+print(f'MODEL_PATH={MODEL_PATH}')
+
 # Signals
 def signal_handler(signal, frame):
     print('You pressed Ctrl+C!')
