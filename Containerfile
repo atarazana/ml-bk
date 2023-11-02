@@ -37,4 +37,4 @@ USER 1001
 
 # Run application
 # CMD ["python", "/deployments/predict-async.py"]
-CMD ["hypercorn", "--graceful-timeout", "5", "--bind", "localhost:5000", "predict-async:app"]
+CMD ["hypercorn", "--graceful-timeout", "5", "--bind", "0.0.0.0:5000", "predict-async:app"]
