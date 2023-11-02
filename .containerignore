@@ -2,5 +2,6 @@
 !predict*.py
 !db.py
 !requirements.txt
+!util/
 !datasets/
 !tests/
