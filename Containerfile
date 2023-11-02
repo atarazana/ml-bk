@@ -24,6 +24,7 @@ USER 1001
 COPY --chown=1001 *.py /deployments/
 COPY --chown=1001 requirements.txt /deployments/
 COPY --chown=1001 datasets/ /deployments/datasets/
+COPY --chown=1001 util/ /deployments/util/
 
 WORKDIR /deployments
 
