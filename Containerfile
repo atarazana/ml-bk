@@ -35,4 +35,5 @@ EXPOSE 5000
 USER 1001
 
 # Run application
-CMD ["python", "/deployments/predict-async.py"] 
+# CMD ["python", "/deployments/predict-async.py"]
+CMD ["hypercorn", "/deployments/predict-async.py", "0.0.0.0:5000"]
