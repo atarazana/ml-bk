@@ -41,3 +41,5 @@ logs/
 old
 
 .vscode
+
+models/*

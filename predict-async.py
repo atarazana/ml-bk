@@ -46,7 +46,7 @@ from quart import Quart, request, jsonify
 
 app = Quart(__name__)
 
-model = joblib.load('model.joblib')
+model = joblib.load(MODEL_PATH)
 
 predictions = {}
 

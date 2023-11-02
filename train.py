@@ -29,25 +29,15 @@ import joblib
 
 from util import CombinedAttributesAdder
 
-# # column index
-# rooms_ix, bedrooms_ix, population_ix, households_ix = 3, 4, 5, 6
-# # col_names = "total_rooms", "total_bedrooms", "population", "households"
-# # rooms_ix, bedrooms_ix, population_ix, households_ix = [housing.columns.get_loc(c) for c in col_names] # get the column indices
+if "MODEL_PATH" in os.environ:
+    pass
+else:
+    print('MODEL_PATH CANNOT BE EMPTY!!!')
+    sys.exit()
 
-# class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
-#     def __init__(self, add_bedrooms_per_room=True): # no *args or **kargs
-#         self.add_bedrooms_per_room = add_bedrooms_per_room
-#     def fit(self, X, y=None):
-#         return self  # nothing else to do
-#     def transform(self, X):
-#         rooms_per_household = X[:, rooms_ix] / X[:, households_ix]
-#         population_per_household = X[:, population_ix] / X[:, households_ix]
-#         if self.add_bedrooms_per_room:
-#             bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
-#             return np.c_[X, rooms_per_household, population_per_household,
-#                          bedrooms_per_room]
-#         else:
-#             return np.c_[X, rooms_per_household, population_per_household]
+MODEL_PATH = os.getenv('MODEL_PATH')
+
+print(f'MODEL_PATH={MODEL_PATH}')
 
 HOUSING_PATH = os.path.join("datasets", "housing")
 
@@ -106,7 +96,7 @@ print(f'all_attribs_2={list(housing)}')
 full_pipeline_with_predictor.fit(housing, housing_labels)
 
 print("Dumping model to model.joblib")
-joblib.dump(full_pipeline_with_predictor, "model.joblib") 
+joblib.dump(full_pipeline_with_predictor, MODEL_PATH) 
 
 print("Test data")
 sample = strat_test_set.sample()
