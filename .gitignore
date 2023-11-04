@@ -43,3 +43,5 @@ old
 .vscode
 
 models/*
+
+*.bak

@@ -1,0 +1,39 @@
+repository: "image-registry.openshift-image-registry.svc:5000"
+organization: 2-test
+
+ml:
+  bk:
+    vcs:
+      uri: https://github.com/atarazana/ml-bk
+      ref: ''
+    replicas: 1
+    env:
+      modelPath: /models/model.joblib
+    image:
+      tag: latest
+    imagePullPolicy: Always
+    svc:
+      type: ClusterIP
+      ports:
+      - name: 5000-tcp
+        port: 5000
+        protocol: TCP
+        targetPort: 5000
+  ui:
+    vcs: 
+      uri: https://github.com/atarazana/ml-ui
+      ref: ''
+    replicas: 1
+    env:
+      backendUrl: http://ml-bk:5000
+    image:
+      tag: latest
+    imagePullPolicy: Always
+    svc:
+      type: ClusterIP
+      ports:
+      - name: 8080-tcp
+        port: 8080
+        protocol: TCP
+        targetPort: 8080
+    
