@@ -45,3 +45,5 @@ old
 models/*
 
 *.bak
+
+all.yaml

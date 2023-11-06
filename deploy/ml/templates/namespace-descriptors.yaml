@@ -27,8 +27,8 @@ kind: Service
 metadata:
   name: {{ include "ml.fullname" . }}-ui
   labels:
-    app: ml-ui
-    app.kubernetes.io/component: ml-ui
+    app: {{ include "ml.fullname" . }}-ui
+    app.kubernetes.io/component: {{ include "ml.fullname" . }}-ui
     app.kubernetes.io/part-of: ml-app
     app.openshift.io/runtime: nodejs
     app.openshift.io/runtime-version: 16-ubi8
@@ -39,8 +39,8 @@ metadata:
 spec:
   type: {{ .Values.ml.ui.svc.type }}
   selector:
-    app: ml-ui
-    deployment: ml-ui
+    app: {{ include "ml.fullname" . }}-ui
+    deployment: {{ include "ml.fullname" . }}-ui
   {{- include "ml.selectorLabels" . | nindent 4 }}
   ports:
 	{{- .Values.ml.ui.svc.ports | toYaml | nindent 2 }}
@@ -61,8 +61,6 @@ metadata:
     app.openshift.io/route-disabled: "false"
     app.openshift.io/vcs-ref: {{ quote .Values.ml.bk.vcs.ref }}
     app.openshift.io/vcs-uri: {{ .Values.ml.bk.vcs.uri }}
-    deployment.kubernetes.io/revision: "5"
-    # image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"{{ include "ml.fullname" . }}-bk:latest","namespace":"1-test"},"fieldPath":"spec.template.spec.containers[?(@.name==\"{{ include "ml.fullname" . }}-bk\")].image","pause":"false"}]'
     image.openshift.io/triggers: >-
       [{"from":{"kind":"ImageStreamTag","name":"{{ include "ml.fullname" . }}-bk:{{ .Values.ml.bk.image.tag | default .Chart.AppVersion }}"},"fieldPath":"spec.template.spec.containers[?(@.name==\"{{ include "ml.fullname" . }}-bk\")].image","pause":"false"}]
 spec:
@@ -107,8 +105,8 @@ kind: Deployment
 metadata:
   name: {{ include "ml.fullname" . }}-ui
   labels:
-    app: ml-ui
-    app.kubernetes.io/component: ml-ui
+    app: {{ include "ml.fullname" . }}-ui
+    app.kubernetes.io/component: {{ include "ml.fullname" . }}-ui
     app.kubernetes.io/part-of: ml-app
     app.openshift.io/runtime: nodejs
     app.openshift.io/runtime-version: 18-ubi8
@@ -119,20 +117,19 @@ metadata:
     app.openshift.io/vcs-ref: {{ quote .Values.ml.ui.vcs.ref }}
     app.openshift.io/vcs-uri: {{ .Values.ml.ui.vcs.uri }}
     deployment.kubernetes.io/revision: "5"
-    # image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"ml-ui:latest","namespace":"1-test"},"fieldPath":"spec.template.spec.containers[?(@.name==\"ml-ui\")].image","pause":"false"}]'
     image.openshift.io/triggers: >-
       [{"from":{"kind":"ImageStreamTag","name":"{{ include "ml.fullname" . }}-ui:{{ .Values.ml.ui.image.tag | default .Chart.AppVersion }}"},"fieldPath":"spec.template.spec.containers[?(@.name==\"{{ include "ml.fullname" . }}-ui\")].image","pause":"false"}]
 spec:
   replicas: {{ .Values.ml.ui.replicas }}
   selector:
     matchLabels:
-      app: ml-ui
+      app: {{ include "ml.fullname" . }}-ui
     {{- include "ml.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: ml-ui
-        deployment: ml-ui
+        app: {{ include "ml.fullname" . }}-ui
+        deployment: {{ include "ml.fullname" . }}-ui
       {{- include "ml.selectorLabels" . | nindent 8 }}
     spec:
       containers:
@@ -141,7 +138,7 @@ spec:
           value: {{ quote .Values.ml.ui.env.backendUrl }}
         image: {{ .Values.repository }}/{{ .Values.organization }}/{{ include "ml.fullname" . }}-ui:{{ .Values.ml.ui.image.tag | default .Chart.AppVersion }}
         imagePullPolicy: {{ .Values.ml.ui.imagePullPolicy }}
-        name: ml-ui
+        name: {{ include "ml.fullname" . }}-ui
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -192,13 +189,29 @@ spec:
     type: GitHub
   - type: ConfigChange
 ---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: {{ include "ml.fullname" . }}-bk-generic-webhook-secret
+  creationTimestamp:
+stringData:
+  WebHookSecretKey: {{ quote .Values.webHookSecretKey }}
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: {{ include "ml.fullname" . }}-bk-github-webhook-secret
+  creationTimestamp:
+stringData:
+  WebHookSecretKey: {{ quote .Values.webHookSecretKey }}
+---
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
   name: {{ include "ml.fullname" . }}-ui
   labels:
-    app: ml-ui
-    app.kubernetes.io/component: ml-ui
+    app: {{ include "ml.fullname" . }}-ui
+    app.kubernetes.io/component: {{ include "ml.fullname" . }}-ui
     app.kubernetes.io/part-of: ml-app
     app.openshift.io/runtime: nodejs
     app.openshift.io/runtime-version: 18-ubi8
@@ -209,7 +222,7 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: ml-ui:latest
+      name: {{ include "ml.fullname" . }}-ui:latest
   source:
     contextDir: /
     git:
@@ -220,8 +233,8 @@ spec:
     sourceStrategy:
       from:
         kind: ImageStreamTag
-        name: nodejs-18:1-71.1698060565
-        namespace: openshift
+        name: nodejs-18:latest
+        # namespace: openshift
     type: Source
   triggers:
   - type: ConfigChange
@@ -229,12 +242,28 @@ spec:
     type: ImageChange
   - generic:
       secretReference:
-        name: ml-ui-generic-webhook-secret
+        name: {{ include "ml.fullname" . }}-ui-generic-webhook-secret
     type: Generic
   - github:
       secretReference:
-        name: ml-ui-github-webhook-secret
+        name: {{ include "ml.fullname" . }}-ui-github-webhook-secret
     type: GitHub
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: {{ include "ml.fullname" . }}-ui-generic-webhook-secret
+  creationTimestamp:
+stringData:
+  WebHookSecretKey: {{ quote .Values.webHookSecretKey }}
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: {{ include "ml.fullname" . }}-ui-github-webhook-secret
+  creationTimestamp:
+stringData:
+  WebHookSecretKey: {{ quote .Values.webHookSecretKey }}
 ---
 apiVersion: image.openshift.io/v1
 kind: ImageStream
@@ -260,8 +289,8 @@ kind: ImageStream
 metadata:
   name: {{ include "ml.fullname" . }}-ui
   labels:
-    app: ml-ui
-    app.kubernetes.io/component: ml-ui
+    app: {{ include "ml.fullname" . }}-ui
+    app.kubernetes.io/component: {{ include "ml.fullname" . }}-ui
     app.kubernetes.io/part-of: ml-app
     app.openshift.io/runtime: nodejs
     app.openshift.io/runtime-version: 18-ubi8
@@ -302,8 +331,8 @@ kind: Route
 metadata:
   name: {{ include "ml.fullname" . }}-ui
   labels:
-    app: ml-ui
-    app.kubernetes.io/component: ml-ui
+    app: {{ include "ml.fullname" . }}-ui
+    app.kubernetes.io/component: {{ include "ml.fullname" . }}-ui
     app.kubernetes.io/part-of: ml-app
     app.openshift.io/runtime: nodejs
     app.openshift.io/runtime-version: 16-ubi8
@@ -316,6 +345,6 @@ spec:
     termination: edge
   to:
     kind: Service
-    name: ml-ui
+    name: {{ include "ml.fullname" . }}-ui
     weight: 100
   wildcardPolicy: None

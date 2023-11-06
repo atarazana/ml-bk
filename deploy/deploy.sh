@@ -18,6 +18,7 @@ oc create secret generic ml-models --from-file=../models/model.joblib -n ${DEPLO
 # oc delete secret ml-models -n ${DEPLOYMENT_NS}
 # oc create secret generic ml-models --from-env-file=${ENV_FILE} -n ${DEPLOYMENT_NS}
 
-helm template ml ml/ --set organization=${DEPLOYMENT_NS} | oc apply -n ${DEPLOYMENT_NS} -f -
+# RANDOM seed to generate the same secret key
+RANDOM=642 helm template ml ml/ --set organization=${DEPLOYMENT_NS},webHookSecretKey=${RANDOM} | oc apply -n ${DEPLOYMENT_NS} -f -
 
 # oc start-build bc/kitchensink-bot -n ${DEPLOYMENT_NS}
