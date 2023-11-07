@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DEPLOYMENT_NS="4-test"
+DEPLOYMENT_NS="5-test"
 # ENV_FILE="../.env.deploy"
 
 # if ! test -f "${ENV_FILE}"; then
