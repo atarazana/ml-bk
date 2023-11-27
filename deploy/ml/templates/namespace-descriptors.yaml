@@ -18,7 +18,7 @@ spec:
   selector:
     app: {{ include "ml.fullname" . }}-bk
     deployment: {{ include "ml.fullname" . }}-bk
-  {{- include "ml.selectorLabels" . | nindent 4 }}
+  {{- include "ml-bk.selectorLabels" . | nindent 4 }}
   ports:
 	{{- .Values.ml.bk.svc.ports | toYaml | nindent 2 }}
 ---
@@ -41,7 +41,7 @@ spec:
   selector:
     app: {{ include "ml.fullname" . }}-ui
     deployment: {{ include "ml.fullname" . }}-ui
-  {{- include "ml.selectorLabels" . | nindent 4 }}
+  {{- include "ml-ui.selectorLabels" . | nindent 4 }}
   ports:
 	{{- .Values.ml.ui.svc.ports | toYaml | nindent 2 }}
 ---
@@ -68,13 +68,13 @@ spec:
   selector:
     matchLabels:
       app: {{ include "ml.fullname" . }}-bk
-    {{- include "ml.selectorLabels" . | nindent 6 }}
+    {{- include "ml-bk.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
         app: {{ include "ml.fullname" . }}-bk
         deployment: {{ include "ml.fullname" . }}-bk
-      {{- include "ml.selectorLabels" . | nindent 8 }}
+      {{- include "ml-bk.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - env:
@@ -124,13 +124,13 @@ spec:
   selector:
     matchLabels:
       app: {{ include "ml.fullname" . }}-ui
-    {{- include "ml.selectorLabels" . | nindent 6 }}
+    {{- include "ml-ui.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
         app: {{ include "ml.fullname" . }}-ui
         deployment: {{ include "ml.fullname" . }}-ui
-      {{- include "ml.selectorLabels" . | nindent 8 }}
+      {{- include "ml-ui.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - env:

@@ -35,7 +35,7 @@ Common labels
 */}}
 {{- define "ml.labels" -}}
 helm.sh/chart: {{ include "ml.chart" . }}
-{{ include "ml.selectorLabels" . }}
+{{/*{{ include "ml.selectorLabels" . }}*/}}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,9 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "ml.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "ml.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+{{- define "ml-ui.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ml.name" . }}-ui
+app.kubernetes.io/instance: {{ .Release.Name }}-ui
+{{- end }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "ml-bk.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ml.name" . }}-bk
+app.kubernetes.io/instance: {{ .Release.Name }}-bk
 {{- end }}
 
 {{/*
