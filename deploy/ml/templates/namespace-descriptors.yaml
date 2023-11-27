@@ -194,7 +194,6 @@ kind: Secret
 apiVersion: v1
 metadata:
   name: {{ include "ml.fullname" . }}-bk-generic-webhook-secret
-  creationTimestamp:
 stringData:
   WebHookSecretKey: {{ quote .Values.webHookSecretKey }}
 ---
@@ -202,7 +201,6 @@ kind: Secret
 apiVersion: v1
 metadata:
   name: {{ include "ml.fullname" . }}-bk-github-webhook-secret
-  creationTimestamp:
 stringData:
   WebHookSecretKey: {{ quote .Values.webHookSecretKey }}
 ---
@@ -254,7 +252,6 @@ kind: Secret
 apiVersion: v1
 metadata:
   name: {{ include "ml.fullname" . }}-ui-generic-webhook-secret
-  creationTimestamp:
 stringData:
   WebHookSecretKey: {{ quote .Values.webHookSecretKey }}
 ---
@@ -262,7 +259,6 @@ kind: Secret
 apiVersion: v1
 metadata:
   name: {{ include "ml.fullname" . }}-ui-github-webhook-secret
-  creationTimestamp:
 stringData:
   WebHookSecretKey: {{ quote .Values.webHookSecretKey }}
 ---
