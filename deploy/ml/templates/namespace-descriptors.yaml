@@ -117,7 +117,6 @@ metadata:
     app.openshift.io/route-disabled: "false"
     app.openshift.io/vcs-ref: {{ quote .Values.ml.ui.vcs.ref }}
     app.openshift.io/vcs-uri: {{ .Values.ml.ui.vcs.uri }}
-    deployment.kubernetes.io/revision: "5"
     image.openshift.io/triggers: >-
       [{"from":{"kind":"ImageStreamTag","name":"{{ include "ml.fullname" . }}-ui:{{ .Values.ml.ui.image.tag | default .Chart.AppVersion }}"},"fieldPath":"spec.template.spec.containers[?(@.name==\"{{ include "ml.fullname" . }}-ui\")].image","pause":"false"}]
 spec:
