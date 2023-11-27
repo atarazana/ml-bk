@@ -119,4 +119,4 @@ json_string = json.dumps(json_object, indent=4)
 
 # Print the cURL command
 print(f'Run the next command it should predict a value close to: {sample["median_house_value"].values[0]}')
-print(f"curl -X POST -H \"Content-Type: application/json\" -d '{json_string}' http://localhost:5000/predict")
+print(f"curl -X POST -H \"Content-Type: application/json\" -d '{json_string}' http://localhost:8080/predict")

@@ -17,17 +17,17 @@ ml:
     svc:
       type: ClusterIP
       ports:
-      - name: 5000-tcp
-        port: 5000
+      - name: http
+        port: 8080
         protocol: TCP
-        targetPort: 5000
+        targetPort: 8080
   ui:
     vcs: 
       uri: https://github.com/atarazana/ml-ui
       ref: ''
     replicas: 1
     env:
-      backendUrl: http://ml-bk:5000
+      backendUrl: http://ml-bk:8080
     image:
       tag: latest
     imagePullPolicy: Always

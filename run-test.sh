@@ -2,7 +2,7 @@
 
 echo "This should predict a value close to: 244800.0"
 
-curl http://localhost:5000/predictions/$(curl -sX POST -H "Content-Type: application/json" -d '{
+curl http://localhost:8080/predictions/$(curl -sX POST -H "Content-Type: application/json" -d '{
     "longitude": -117.72,
     "latitude": 33.54,
     "housing_median_age": 13.0,
@@ -12,4 +12,4 @@ curl http://localhost:5000/predictions/$(curl -sX POST -H "Content-Type: applica
     "households": 733.0,
     "median_income": 4.9821,
     "ocean_proximity": "<1H OCEAN"
-}' http://localhost:5000/predict | jq -r .predictionId)
+}' http://localhost:8080/predict | jq -r .predictionId)

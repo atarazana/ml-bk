@@ -14,7 +14,7 @@ metadata:
     app.openshift.io/vcs-uri: {{ .Values.ml.bk.vcs.uri }}
     openshift.io/generated-by: OpenShiftWebConsole
 spec:
-  type: {{ .Values.ml.bk.type }}
+  type: {{ .Values.ml.bk.svc.type }}
   selector:
     app: {{ include "ml.fullname" . }}-bk
     deployment: {{ include "ml.fullname" . }}-bk
@@ -313,7 +313,7 @@ metadata:
   {{- include "ml.labels" . | nindent 4 }}
 spec:
   port:
-    targetPort: 5000-tcp
+    targetPort: http
   tls:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge

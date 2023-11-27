@@ -32,9 +32,9 @@ WORKDIR /deployments
 RUN pip install -r requirements.txt
 
 # Configure container port and UID
-EXPOSE 5000
+EXPOSE 8080
 USER 1001
 
 # Run application
 # CMD ["python", "/deployments/predict-async.py"]
-CMD ["hypercorn", "--graceful-timeout", "5", "--bind", "0.0.0.0:5000", "predict-async:app"]
+CMD ["hypercorn", "--graceful-timeout", "5", "--bind", "0.0.0.0:8080", "predict-async:app"]
