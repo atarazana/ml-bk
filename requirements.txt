@@ -9,7 +9,7 @@ quart==0.19.3
 hypercorn==0.15.0
 
 ##### Core scientific packages
-numpy==1.26.1
+numpy==1.26.2
 pandas==2.1.2
 scipy==1.11.3
 
