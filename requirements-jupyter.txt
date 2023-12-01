@@ -5,7 +5,7 @@ black==23.7.0
 ##### Rest API
 flask==3.0.0
 gunicorn==21.2.0
-quart==0.19.3
+quart==0.19.4
 hypercorn==0.15.0
 
 ##### Core scientific packages
