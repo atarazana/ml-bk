@@ -102,20 +102,14 @@ kubectl patch is nodejs -n openshift --type='json' -p='[{"op": "add", "path": "/
 Go to Topology from the Developer view and click on Add->Import from Git
 
 1. Use this git repository URL: https://github.com/atarazana/ml-ui.git
-2. Edit Import Strategy and choose `Dockerfile`, type in *Containerfile* into `Dockerfile path`
-3. Application name should be: *ml-app*
-4. Name *ml-bk*
+2. Application name should be: *ml-app*
+3. Name *ml-ui*
 
 Click on `Deployment` and add this environment variable:
 
 ```sh
-MODEL_PATH => "/models/model.joblib"
+BACKEND_URL => "http://ml-bk:8080"
 ```
 
 Click on `Create`.
 
-Deploy from git using s2i wizzard. Add this environment variable:
-
-```sh
-BACKEND_URL => "http://ml-bk:8080"
-```
