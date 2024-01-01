@@ -1,6 +1,6 @@
 pytest==7.4.3
 flake8==6.1.0
-black==23.7.0
+black==23.12.1
 
 ##### Rest API
 flask==3.0.0
